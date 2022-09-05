@@ -1,12 +1,11 @@
 ﻿using MediatR;
 using Turbo.Application.Features.Categories.DTOs;
-using Turbo.Application.Services.Mapping;
-using Turbo.Domain.Entities.Catalog;
 
-namespace Turbo.Application.Features.Categories.Commands.CreateCategory;
+namespace Turbo.Application.Features.Categories.Commands.UpdateCategory;
 
-public class CreateCategoryCommand : IRequest<CreatedCategoryDto>, IMapFrom<Category>
+public class UpdateCategoryCommand : IRequest<UpdatedCategoryDto>
 {
+    public int Id { get; set; }
     public int? ParentId { get; set; }
     public string Title { get; set; }
     public string Name { get; set; }

@@ -1,6 +1,6 @@
 using AutoMapper;
 using MediatR;
-using Turbo.Application.Features.Brands.Dtos;
+using Turbo.Application.Features.Brands.DTOs;
 using Turbo.Application.Features.Brands.Rules;
 using Turbo.Application.Services.Repositories;
 using Turbo.Domain.Entities.Catalog;

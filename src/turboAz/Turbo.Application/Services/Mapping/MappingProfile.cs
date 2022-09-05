@@ -21,8 +21,17 @@ public class MappingProfile: Profile
             var instance = Activator.CreateInstance(type);
             var methodInfo = type.GetMethod("Mapping");
 
-            methodInfo?.Invoke(instance, new object[] { this });
+            var interfaceMethodInfo = type.GetInterface("IMapFrom`1")?.GetMethod("Mapping");
 
+            if (methodInfo == null)
+            {
+                interfaceMethodInfo?.Invoke(instance, new object[] { this });
+
+            }
+            else
+            {
+                methodInfo.Invoke(instance, new object[] { this });
+            }
         }
 
     }

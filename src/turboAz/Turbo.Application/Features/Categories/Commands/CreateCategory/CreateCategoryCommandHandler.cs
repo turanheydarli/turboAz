@@ -1,8 +1,8 @@
-using AutoMapper;
+﻿using AutoMapper;
 using MediatR;
-using Turbo.Application.Features.Categories.Dtos;
+using Turbo.Application.Features.Categories.DTOs;
+using Turbo.Application.Features.Categories.Rules;
 using Turbo.Application.Services.Repositories;
-using Turbo.Application.Services.Slug;
 using Turbo.Domain.Entities.Catalog;
 
 namespace Turbo.Application.Features.Categories.Commands.CreateCategory;
@@ -11,21 +11,25 @@ public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryComman
 {
     private readonly ICategoryRepository _categoryRepository;
     private readonly IMapper _mapper;
+    private readonly CategoryRules _categoryRules;
 
-    public CreateCategoryCommandHandler(IMapper mapper, ICategoryRepository categoryRepository)
+    public CreateCategoryCommandHandler(ICategoryRepository categoryRepository, IMapper mapper, CategoryRules categoryRules)
     {
-        _mapper = mapper;
         _categoryRepository = categoryRepository;
+        _mapper = mapper;
+        _categoryRules = categoryRules;
     }
 
     public async Task<CreatedCategoryDto> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
     {
-        var category = _mapper.Map<Category>(request);
-
-        category.Slug = SlugHelper.Create(request.Name);
+        await _categoryRules.CategoryNameShouldNotBeExisted(request.Name);
         
-        var addedCategory = await _categoryRepository.AddAsync(category);
+        Category category = _mapper.Map<Category>(request);
 
-        return _mapper.Map<CreatedCategoryDto>(addedCategory);
+        Category createdCategory = await _categoryRepository.AddAsync(category);
+
+        CreatedCategoryDto createdCategoryDto = _mapper.Map<CreatedCategoryDto>(createdCategory);
+
+        return createdCategoryDto;
     }
 }

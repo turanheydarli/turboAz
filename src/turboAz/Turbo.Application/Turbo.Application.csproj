@@ -20,12 +20,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Features\Brands\Queries" />
       <Folder Include="Features\Categories\Models" />
       <Folder Include="Features\Categories\Queries" />
-      <Folder Include="Features\Categories\Rules" />
-      <Folder Include="Features\Products\Models" />
-      <Folder Include="Features\Products\Rules" />
     </ItemGroup>
 
 </Project>

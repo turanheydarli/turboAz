@@ -1,8 +1,7 @@
-using AutoMapper;
 using Turbo.Application.Services.Mapping;
 using Turbo.Domain.Entities.Catalog;
 
-namespace Turbo.Application.Features.Products.Dtos;
+namespace Turbo.Application.Features.Products.DTOs;
 
 public class CreatedProductDto : IMapFrom<Product>
 {
@@ -28,9 +27,4 @@ public class CreatedProductDto : IMapFrom<Product>
     public string ContactNumber { get; set; }
     public int ProductDetailId { get; set; }
     public ProductDetail ProductDetail { get; set; }
-
-    public void Mapping(Profile profile)
-    {
-        profile.CreateMap<Product, CreatedProductDto>();
-    }
 }

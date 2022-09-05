@@ -1,6 +1,6 @@
 using Core.Application.Pipelines.Authorization;
 using MediatR;
-using Turbo.Application.Features.Brands.Dtos;
+using Turbo.Application.Features.Brands.DTOs;
 
 namespace Turbo.Application.Features.Brands.Commands.UpdateBrand;
 

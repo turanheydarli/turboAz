@@ -2,7 +2,7 @@ using Core.Persistence.Repositories;
 
 namespace Turbo.Domain.Entities.Catalog;
 
-public class Product: Entity
+public class Product : Entity
 {
     public string Title { get; set; }
     public string Description { get; set; }
@@ -26,33 +26,4 @@ public class Product: Entity
     public int ProductDetailId { get; set; }
     public ProductDetail ProductDetail { get; set; }
 
-    public Product()
-    {
-        
-    }
-    
-    public Product(int id, string title, string description, int viewCount, bool isPro, bool isVip, string slug, decimal price, int currencyId, Currency currency, bool status, bool isPromoted, DateTime promotedStart, DateTime promotedEnd, string visibility, int pageViews, bool isSold, bool isDeleted, bool isDraft, string contactNumber, int productDetailId):this()
-    {
-        Id = id;
-        Title = title;
-        Description = description;
-        ViewCount = viewCount;
-        IsPro = isPro;
-        IsVip = isVip;
-        Slug = slug;
-        Price = price;
-        CurrencyId = currencyId;
-        Currency = currency;
-        Status = status;
-        IsPromoted = isPromoted;
-        PromotedStart = promotedStart;
-        PromotedEnd = promotedEnd;
-        Visibility = visibility;
-        PageViews = pageViews;
-        IsSold = isSold;
-        IsDeleted = isDeleted;
-        IsDraft = isDraft;
-        ContactNumber = contactNumber;
-        ProductDetailId = productDetailId;
-    }
 }

@@ -1,15 +1,15 @@
-using AutoMapper;
-using Turbo.Application.Services.Mapping;
+﻿using Turbo.Application.Services.Mapping;
 using Turbo.Domain.Entities.Catalog;
 
-namespace Turbo.Application.Features.Categories.Dtos;
+namespace Turbo.Application.Features.Categories.DTOs;
 
 public class CreatedCategoryDto : IMapFrom<Category>
 {
     public int Id { get; set; }
+    public DateTime CreatedTime { get; set; }
     public string Slug { get; set; }
     public int? ParentId { get; set; }
-    public Category Parent { get; set; }
+    public CategoryDto Parent { get; set; }
     public string Title { get; set; }
     public string Name { get; set; }
     public string Description { get; set; }
@@ -21,10 +21,4 @@ public class CreatedCategoryDto : IMapFrom<Category>
     public int FeaturedOrder { get; set; }
     public bool Visibility { get; set; }
     public bool ShowImageOnNavigation { get; set; }
-    public DateTime CreatedTime { get; set; }
-
-    public void Mapping(Profile profile)
-    {
-        profile.CreateMap<Category,CreatedCategoryDto>().ReverseMap();
-    }
 }

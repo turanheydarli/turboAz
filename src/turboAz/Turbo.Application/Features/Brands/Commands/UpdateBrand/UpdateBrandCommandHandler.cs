@@ -1,7 +1,7 @@
 using AutoMapper;
 using Core.CrossCuttingConcers.Exceptions;
 using MediatR;
-using Turbo.Application.Features.Brands.Dtos;
+using Turbo.Application.Features.Brands.DTOs;
 using Turbo.Application.Services.Repositories;
 using Turbo.Domain.Entities.Catalog;
 

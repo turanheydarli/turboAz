@@ -6,11 +6,15 @@ using Turbo.Domain.Entities.Media;
 
 namespace Turbo.Persistence.Contexts;
 
-public class BaseDbContext: DbContext
+public class BaseDbContext : DbContext
 {
     protected IConfiguration Configuration { get; set; }
 
     public DbSet<Brand> Brands { get; set; }
+    public DbSet<Gear> Gears { get; set; }
+    public DbSet<Transmission> Transmissions { get; set; }
+    public DbSet<Color> Colors { get; set; }
+    public DbSet<Model> Models { get; set; }
     public DbSet<User> Users { get; set; }
     public DbSet<RefreshToken> RefreshTokens { get; set; }
     public DbSet<Category> Categories { get; set; }
@@ -26,7 +30,7 @@ public class BaseDbContext: DbContext
     public DbSet<Picture> Pictures { get; set; }
     public DbSet<OperationClaim> OperationClaims { get; set; }
     public DbSet<UserOperationClaim> UserOperationClaims { get; set; }
-    
+
     public BaseDbContext(DbContextOptions dbContextOptions, IConfiguration configuration)
     {
         Configuration = configuration;
@@ -38,7 +42,7 @@ public class BaseDbContext: DbContext
         {
             optionsBuilder.UseNpgsql(Configuration.GetConnectionString("PgSql")
                                      ?? throw new NullReferenceException(
-                                         "Assign connection string in appsettings.json"))
+                                         "Assign connection string in app settings.json"))
                 .EnableSensitiveDataLogging();
         }
     }
@@ -55,7 +59,7 @@ public class BaseDbContext: DbContext
         Brand[] brandEntitySeeds = { new Brand { Id = 1, Name = "BMW" }, new Brand { Id = 2, Name = "Audi" } };
 
         modelBuilder.Entity<Brand>().HasData(brandEntitySeeds);
-        
+
         modelBuilder.Entity<Product>()
             .HasOne(a => a.ProductDetail)
             .WithOne(a => a.Product)
@@ -65,7 +69,5 @@ public class BaseDbContext: DbContext
             .HasMany(p => p.Pictures)
             .WithOne(p => p.ProductDetail)
             .HasForeignKey(p => p.ProductDetailId);
-        
-
     }
 }
