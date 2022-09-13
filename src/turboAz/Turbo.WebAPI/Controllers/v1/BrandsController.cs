@@ -1,5 +1,6 @@
 ﻿using Core.Application.Requests;
 using Core.CrossCuttingConcers.Exceptions;
+using Core.Persistence.Dynamic;
 using Microsoft.AspNetCore.Mvc;
 using Turbo.Application.Features.Brands.Commands.CreateBrand;
 using Turbo.Application.Features.Brands.Commands.DeleteBrand;
@@ -8,6 +9,7 @@ using Turbo.Application.Features.Brands.DTOs;
 using Turbo.Application.Features.Brands.Models;
 using Turbo.Application.Features.Brands.Queries.GetByIdBrand;
 using Turbo.Application.Features.Brands.Queries.GetListBrand;
+using Turbo.Application.Features.Brands.Queries.GetListByDynamicBrand;
 
 namespace Turbo.WebAPI.Controllers.v1;
 
@@ -23,6 +25,23 @@ public class BrandsController : BaseController
         GetListBrandQuery getListBrandQuery = new GetListBrandQuery(pageRequest);
 
         BrandListModel brandListModel = await Mediator.Send(getListBrandQuery);
+
+        return Ok(brandListModel);
+    }
+    
+    [Produces("application/json", "text/plain")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BrandListModel))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(BusinessProblemDetails))]
+    [HttpPost("get-by-dynamic")]
+    public async Task<IActionResult> GetAllBrandsByDynamic([FromQuery] PageRequest pageRequest, [FromBody] Dynamic dynamic)
+    {
+        GetListByDynamicBrandQuery listByDynamicBrandQuery = new GetListByDynamicBrandQuery
+        {
+            Dynamic = dynamic,
+            PageRequest = pageRequest
+        };
+
+        BrandListModel brandListModel = await Mediator.Send(listByDynamicBrandQuery);
 
         return Ok(brandListModel);
     }

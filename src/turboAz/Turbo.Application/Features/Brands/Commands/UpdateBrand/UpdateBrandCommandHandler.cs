@@ -26,7 +26,7 @@ public class UpdateBrandCommandHandler : IRequestHandler<UpdateBrandCommand, Upd
             throw new BusinessException("brand not found");
 
         brand.Name = request.Name;
-        brand.UpdatedTime = DateTime.UtcNow;
+        brand.Updated = DateTime.UtcNow;
         
         await _brandRepository.UpdateAsync(brand);
 

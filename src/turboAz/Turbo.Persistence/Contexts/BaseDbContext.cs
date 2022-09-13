@@ -1,8 +1,6 @@
-using Core.Security.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Turbo.Domain.Entities.Catalog;
-using Turbo.Domain.Entities.Media;
 
 namespace Turbo.Persistence.Contexts;
 
@@ -11,25 +9,7 @@ public class BaseDbContext : DbContext
     protected IConfiguration Configuration { get; set; }
 
     public DbSet<Brand> Brands { get; set; }
-    public DbSet<Gear> Gears { get; set; }
-    public DbSet<Transmission> Transmissions { get; set; }
-    public DbSet<Color> Colors { get; set; }
     public DbSet<Model> Models { get; set; }
-    public DbSet<User> Users { get; set; }
-    public DbSet<RefreshToken> RefreshTokens { get; set; }
-    public DbSet<Category> Categories { get; set; }
-    public DbSet<Conversation> Conversations { get; set; }
-    public DbSet<ConversationMessage> ConversationMessages { get; set; }
-    public DbSet<Currency> Currencies { get; set; }
-    public DbSet<GeneralSetting> GeneralSettings { get; set; }
-    public DbSet<Property> Properties { get; set; }
-    public DbSet<Product> Products { get; set; }
-    public DbSet<ProductDetail> ProductDetails { get; set; }
-    public DbSet<ProductProperty> ProductProperties { get; set; }
-    public DbSet<Region> Regions { get; set; }
-    public DbSet<Picture> Pictures { get; set; }
-    public DbSet<OperationClaim> OperationClaims { get; set; }
-    public DbSet<UserOperationClaim> UserOperationClaims { get; set; }
 
     public BaseDbContext(DbContextOptions dbContextOptions, IConfiguration configuration)
     {
@@ -54,20 +34,29 @@ public class BaseDbContext : DbContext
             b.ToTable("Brands");
             b.Property(p => p.Id).HasColumnName("Id");
             b.Property(p => p.Name).HasColumnName("Name");
+
+            b.HasMany(p => p.Models)
+                .WithOne(p => p.Brand)
+                .HasForeignKey(p => p.BrandId);
         });
 
-        Brand[] brandEntitySeeds = { new Brand { Id = 1, Name = "BMW" }, new Brand { Id = 2, Name = "Audi" } };
+        modelBuilder.Entity<Model>(b =>
+        {
+            b.ToTable("Models");
+            b.Property(p => p.Id).HasColumnName("Id");
+            b.Property(p => p.Name).HasColumnName("Name");
+            b.Property(p => p.ImageUrl).HasColumnName("ImageUrl");
+            b.Property(p => p.BrandId).HasColumnName("BrandId");
 
+            b.HasOne(p => p.Brand)
+                .WithMany(p => p.Models)
+                .HasForeignKey(p => p.BrandId);
+        });
+
+        Brand[] brandEntitySeeds = { new(1, "BMW"), new(2, "Audi") };
         modelBuilder.Entity<Brand>().HasData(brandEntitySeeds);
 
-        modelBuilder.Entity<Product>()
-            .HasOne(a => a.ProductDetail)
-            .WithOne(a => a.Product)
-            .HasForeignKey<ProductDetail>(c => c.ProductId);
-
-        modelBuilder.Entity<ProductDetail>()
-            .HasMany(p => p.Pictures)
-            .WithOne(p => p.ProductDetail)
-            .HasForeignKey(p => p.ProductDetailId);
+        Model[] modelEntitySeed = { new(1, "M5", 1, ""), new(2, "I8", 1, "") };
+        modelBuilder.Entity<Model>().HasData(modelEntitySeed);
     }
 }
