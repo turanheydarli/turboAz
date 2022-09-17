@@ -10,19 +10,19 @@ namespace Turbo.Application.Features.Brands.Commands.CreateBrand;
 public class CreateBrandCommandHandler : IRequestHandler<CreateBrandCommand, CreatedBrandDto>
 {
     private readonly IBrandRepository _brandRepository;
-    private readonly BrandRules _brandRules;
+    private readonly BrandBusinessRules _brandBusinessRules;
     private readonly IMapper _mapper;
 
-    public CreateBrandCommandHandler(BrandRules brandRules, IBrandRepository brandRepository, IMapper mapper)
+    public CreateBrandCommandHandler(IBrandRepository brandRepository, IMapper mapper, BrandBusinessRules brandBusinessRules)
     {
-        _brandRules = brandRules;
         _brandRepository = brandRepository;
         _mapper = mapper;
+        _brandBusinessRules = brandBusinessRules;
     }
 
     public async Task<CreatedBrandDto> Handle(CreateBrandCommand request, CancellationToken cancellationToken)
     {
-        await _brandRules.BrandNameShouldNotBeExisted(request.Name);
+        await _brandBusinessRules.BrandNameShouldNotBeExisted(request.Name);
 
         Brand brand = _mapper.Map<Brand>(request);
         Brand createdBrand =  await _brandRepository.AddAsync(brand);

@@ -5,11 +5,11 @@ using Turbo.Domain.Entities.Catalog;
 
 namespace Turbo.Application.Features.Brands.Rules;
 
-public class BrandRules
+public class BrandBusinessRules
 {
     private readonly IBrandRepository _brandRepository;
 
-    public BrandRules(IBrandRepository brandRepository)
+    public BrandBusinessRules(IBrandRepository brandRepository)
     {
         _brandRepository = brandRepository;
     }
@@ -23,5 +23,11 @@ public class BrandRules
     public void BrandShouldExistWhenRequested(Brand brand)
     {
         if (brand == null) throw new BusinessException(BrandMessages.BrandDoesNotExist);
+    }
+    
+    public async Task BrandShouldExistWhenRequested(int brandId)
+    {
+        Brand result = await _brandRepository.GetAsync(b => b.Id == brandId);
+        if (result == null) throw new BusinessException(BrandMessages.BrandNameExist);
     }
 }

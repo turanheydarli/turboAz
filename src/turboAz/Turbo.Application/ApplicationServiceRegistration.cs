@@ -8,6 +8,7 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Turbo.Application.Features.Brands.Rules;
+using Turbo.Application.Features.Models.Rules;
 using Turbo.Application.Services.AuthService;
 
 namespace Turbo.Application;
@@ -19,7 +20,8 @@ public static class ApplicationServiceRegistration
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
         services.AddMediatR(Assembly.GetExecutingAssembly());
 
-        services.AddScoped<BrandRules>();
+        services.AddScoped<BrandBusinessRules>();
+        services.AddScoped<ModelBusinessRules>();
 
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(AuthorizationBehavior<,>));

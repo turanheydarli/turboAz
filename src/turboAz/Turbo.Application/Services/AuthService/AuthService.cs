@@ -1,4 +1,3 @@
-using Core.Persistence.Paging;
 using Core.Security.Entities;
 using Core.Security.JWT;
 using Microsoft.EntityFrameworkCore;
@@ -8,27 +7,27 @@ namespace Turbo.Application.Services.AuthService;
 
 public class AuthService : IAuthService
 {
-    readonly IUserOperationClaimRepository _userOperationClaimRepository;
-    readonly ITokenHelper _tokenHelper;
+    private readonly IUserRepository _userRepository;
+    private readonly ITokenHelper _tokenHelper;
 
-    public AuthService(IUserOperationClaimRepository userOperationClaimRepository, ITokenHelper tokenHelper)
+    public AuthService(IUserRepository userRepository, ITokenHelper tokenHelper)
     {
-        _userOperationClaimRepository = userOperationClaimRepository;
+        _userRepository = userRepository;
         _tokenHelper = tokenHelper;
     }
 
-    public async Task<AccessToken> CreateAccessToken(User user)
-    {
-        IPaginate<UserOperationClaim> userOperationClaims =
-            await _userOperationClaimRepository.GetListAsync(u => u.UserId == user.Id,
-                include: u =>
-                    u.Include(c => c.OperationClaim)
-            );
-        List<OperationClaim> operationClaims =
-            userOperationClaims.Items.Select(u => new OperationClaim
-                { Id = u.OperationClaim.Id, Name = u.OperationClaim.Name }).ToList();
 
-        AccessToken accessToken = _tokenHelper.CreateToken(user, operationClaims);
+    public async Task<AccessToken> CreateAccessToken(User appUser)
+    {
+        User user = await _userRepository.GetAsync(
+            predicate: u => u.Id == appUser.Id,
+            include: u => u.Include(p => p.UserOperationClaims)
+                .ThenInclude(o => o.OperationClaim));
+
+        IEnumerable<OperationClaim> operationClaims = user.UserOperationClaims.Select(o => o.OperationClaim);
+            
+        AccessToken accessToken = _tokenHelper.CreateToken(user, operationClaims.ToList());
+        
         return accessToken;
     }
 }

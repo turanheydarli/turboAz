@@ -15,14 +15,14 @@ public static class PersistenceServiceRegistration
         {
             options.UseNpgsql(
                     configuration.GetConnectionString("PgSql")
-                    ?? throw new NullReferenceException("Assign connection string in appsettings.json"))
+                    ?? throw new NullReferenceException("Assign connection string in settings.json"))
                 .EnableSensitiveDataLogging();
         });
 
         services.AddScoped<IBrandRepository, BrandRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
-        services.AddScoped<IUserOperationClaimRepository, UserOperationClaimRepository>();
         services.AddScoped<ICategoryRepository, CategoryRepository>();
+        services.AddScoped<IModelRepository, ModelRepository>();
 
         return services;
     }

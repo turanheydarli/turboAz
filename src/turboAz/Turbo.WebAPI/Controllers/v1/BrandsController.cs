@@ -28,18 +28,15 @@ public class BrandsController : BaseController
 
         return Ok(brandListModel);
     }
-    
+
     [Produces("application/json", "text/plain")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BrandListModel))]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(BusinessProblemDetails))]
     [HttpPost("get-by-dynamic")]
-    public async Task<IActionResult> GetAllBrandsByDynamic([FromQuery] PageRequest pageRequest, [FromBody] Dynamic dynamic)
+    public async Task<IActionResult> GetAllBrandsByDynamic([FromQuery] PageRequest pageRequest,
+        [FromBody] Dynamic dynamic)
     {
-        GetListByDynamicBrandQuery listByDynamicBrandQuery = new GetListByDynamicBrandQuery
-        {
-            Dynamic = dynamic,
-            PageRequest = pageRequest
-        };
+        GetListByDynamicBrandQuery listByDynamicBrandQuery = new GetListByDynamicBrandQuery(pageRequest, dynamic);
 
         BrandListModel brandListModel = await Mediator.Send(listByDynamicBrandQuery);
 

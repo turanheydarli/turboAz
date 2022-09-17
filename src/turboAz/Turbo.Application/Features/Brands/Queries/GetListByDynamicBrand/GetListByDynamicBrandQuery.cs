@@ -9,4 +9,15 @@ public class GetListByDynamicBrandQuery : IRequest<BrandListModel>
 {
     public PageRequest PageRequest { get; set; }
     public Dynamic Dynamic { get; set; }
+    
+    public GetListByDynamicBrandQuery(PageRequest pageRequest, Dynamic dynamic)
+    {
+        PageRequest = pageRequest;
+        Dynamic = dynamic;
+    }
+
+    public GetListByDynamicBrandQuery()
+    {
+            
+    }
 }
