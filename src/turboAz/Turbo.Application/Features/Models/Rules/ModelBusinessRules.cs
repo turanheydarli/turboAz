@@ -7,7 +7,7 @@ namespace Turbo.Application.Features.Models.Rules;
 
 public class ModelBusinessRules
 {
-    private IModelRepository _modelRepository;
+    private readonly IModelRepository _modelRepository;
 
     public ModelBusinessRules(IModelRepository modelRepository)
     {

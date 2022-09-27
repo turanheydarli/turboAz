@@ -79,7 +79,6 @@ public class BrandsController : BaseController
     }
 
     [Produces("application/json", "text/plain")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UpdatedBrandDto))]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(BusinessProblemDetails))]
     [HttpDelete("{Id}")]
     public async Task<IActionResult> DeleteBrand([FromRoute] DeleteBrandCommand deleteBrandCommand)
@@ -88,4 +87,6 @@ public class BrandsController : BaseController
 
         return Ok();
     }
+    
+    
 }

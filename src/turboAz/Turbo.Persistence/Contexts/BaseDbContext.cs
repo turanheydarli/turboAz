@@ -10,6 +10,7 @@ public class BaseDbContext : DbContext
 
     public DbSet<Brand> Brands { get; set; }
     public DbSet<Model> Models { get; set; }
+    public DbSet<Category> Categories { get; set; }
 
     public BaseDbContext(DbContextOptions dbContextOptions, IConfiguration configuration)
     {
@@ -53,6 +54,37 @@ public class BaseDbContext : DbContext
                 .HasForeignKey(p => p.BrandId);
         });
 
+        modelBuilder.Entity<Category>(b =>
+        {
+            b.ToTable("Categories");
+            b.Property(p => p.Id).HasColumnName("Id");
+            b.Property(p => p.Name).HasColumnName("Name");
+            b.Property(p => p.Description).HasColumnName("Description");
+            b.Property(p => p.Keywords).HasColumnName("Keywords");
+            b.Property(p => p.Slug).HasColumnName("Slug");
+            b.Property(p => p.Title).HasColumnName("Title");
+            b.Property(p => p.Visibility).HasColumnName("Visibility");
+            b.Property(p => p.CategoryOrder).HasColumnName("CategoryOrder");
+            b.Property(p => p.FeaturedOrder).HasColumnName("FeaturedOrder");
+            b.Property(p => p.HomepageOrder).HasColumnName("HomepageOrder");
+            b.Property(p => p.IsFeatured).HasColumnName("IsFeatured");
+            b.Property(p => p.ParentId).HasColumnName("ParentId");
+            b.Property(p => p.ShowImageOnNavigation).HasColumnName("ShowImageOnNavigation");
+            b.Property(p => p.ShowProductsOnIndex).HasColumnName("ShowProductsOnIndex");
+            b.Property(p => p.Created).HasColumnName("Created");
+            b.Property(p => p.Updated).HasColumnName("Updated");
+        });
+
+        Category[] categoryEntitySeeds =
+        {
+            new(1, "test", null,
+                "Test Category Name", "Test", 
+                "Test Description", "test,keyword",
+                1, 1, true, true, 1,
+                true, true)
+        };
+        modelBuilder.Entity<Category>().HasData(categoryEntitySeeds);
+        
         Brand[] brandEntitySeeds = { new(1, "BMW"), new(2, "Audi") };
         modelBuilder.Entity<Brand>().HasData(brandEntitySeeds);
 

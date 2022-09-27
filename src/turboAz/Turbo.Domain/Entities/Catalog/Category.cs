@@ -18,5 +18,29 @@ public class Category : Entity
     public int FeaturedOrder { get; set; }
     public bool Visibility { get; set; }
     public bool ShowImageOnNavigation { get; set; }
-    
+
+    public Category()
+    {
+    }
+    public Category(int id, string slug, int? parentId, 
+        string title, string name, string description, 
+        string keywords, int categoryOrder, int homepageOrder,
+        bool showProductsOnIndex, bool isFeatured, 
+        int featuredOrder, bool visibility, bool showImageOnNavigation)
+    {
+        Id = id;
+        Slug = slug;
+        ParentId = parentId;
+        Title = title;
+        Name = name;
+        Description = description;
+        Keywords = keywords;
+        CategoryOrder = categoryOrder;
+        HomepageOrder = homepageOrder;
+        ShowProductsOnIndex = showProductsOnIndex;
+        IsFeatured = isFeatured;
+        FeaturedOrder = featuredOrder;
+        Visibility = visibility;
+        ShowImageOnNavigation = showImageOnNavigation;
+    }
 }

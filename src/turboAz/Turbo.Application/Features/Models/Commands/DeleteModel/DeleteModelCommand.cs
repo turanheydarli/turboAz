@@ -1,6 +1,8 @@
+using MediatR;
+
 namespace Turbo.Application.Features.Models.Commands.DeleteModel;
 
-public class DeleteModelCommand
+public class DeleteModelCommand : IRequest<Unit>
 {
-    
+    public int Id { get; set; }
 }
