@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Turbo.Application.Services.Mapping;
+﻿using Turbo.Application.Services.Mapping;
 using Turbo.Domain.Entities.Catalog;
 
 namespace Turbo.Application.Features.Categories.DTOs;
