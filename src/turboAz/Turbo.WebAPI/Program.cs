@@ -32,7 +32,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-if (app.Environment.IsDevelopment()) app.ConfigureCustomExceptionMiddleware();
+if (app.Environment.IsProduction()) app.ConfigureCustomExceptionMiddleware();
 
 app.UseAuthorization();
 

@@ -19,4 +19,15 @@ public class CategoryBusinessRules
         Category result = await _categoryRepository.GetAsync(b => b.Name == categoryName);
         if (result != null) throw new BusinessException(CategoryMessages.CategoryNameExist);
     }
+    
+    public void CategoryShouldExistWhenRequested(Category category)
+    {
+        if (category == null) throw new BusinessException(CategoryMessages.CategoryDoesNotExist);
+    }
+    
+    public async Task CategoryShouldExistWhenRequested(int categoryId)
+    {
+        Category result = await _categoryRepository.GetAsync(m => m.Id == categoryId);
+        if (result == null) throw new BusinessException(CategoryMessages.CategoryDoesNotExist);
+    }
 }
