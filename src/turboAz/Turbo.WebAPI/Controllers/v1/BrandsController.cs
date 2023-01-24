@@ -19,10 +19,7 @@ public class BrandsController : BaseController
     [Produces("application/json", "text/plain")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BrandListModel))]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(BusinessProblemDetails))]
-    [HttpGet]
-    
-    
-    
+    [HttpGet]  
     public async Task<IActionResult> GetAllBrands([FromQuery] PageRequest pageRequest)
     {
         GetListBrandQuery getListBrandQuery = new GetListBrandQuery(pageRequest);
